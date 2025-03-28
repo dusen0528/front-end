@@ -1,0 +1,226 @@
+/* 기본 스타일 초기화 */
+
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+font-family: 'Noto Sans KR', sans-serif;
+background-color: #f8f9fa; /* 부트스트랩 배경색 /
+color: #212529; / 부트스트랩 텍스트 색상 */
+line-height: 1.6;
+}
+
+/* 네비게이션 스타일 */
+#todo-nav {
+display: flex;
+justify-content: space-between;
+align-items: center;
+background-color: white;
+border-radius: 0.75rem;
+padding: 12px 20px;
+box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); 
+margin: 20px auto;
+max-width: 800px;
+}
+
+#todo-nav li {
+list-style: none;
+}
+
+#todo-nav a {
+text-decoration: none;
+color: #0d6efd; /* 부트스트랩 파란색 */
+font-weight: 500;
+padding: 8px 16px;
+border-radius: 0.375rem;
+transition: all 0.15s ease-in-out;
+}
+
+#todo-nav a:hover {
+background-color: #f0f7ff;
+color: #0a58ca;
+}
+
+#todo-nav-year, #todo-nav-month {
+font-weight: bold;
+}
+
+/* 전체 컨테이너 스타일 */
+#todo-item-container {
+max-width: 800px;
+margin: 20px auto;
+height: auto;
+}
+
+/* 개별 할 일 아이템 */
+.todo-item {
+display: grid;
+grid-template-columns: auto auto 1fr;
+grid-template-rows: auto 1fr;
+align-items: start;
+gap: 20px;
+background-color: #ffffff;
+border-radius: 0.75rem;
+box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+padding: 20px;
+margin-bottom: 20px;
+transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.todo-item:hover {
+transform: translateY(-3px);
+box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* 날짜 박스 스타일 */
+.todo-item-day {
+width: 60px;
+height: 60px;
+font-size: 1.5em;
+font-weight: bold;
+color: #0d6efd;
+display: flex;
+margin: auto;
+justify-content: center;
+align-items: center;
+background-color: #e7f0ff;
+border-radius: 50%;
+box-shadow: 0 0.125rem 0.25rem rgba(13, 110, 253, 0.2);
+transition: all 0.2s ease;
+}
+
+.todo-item-day:hover {
+transform: scale(1.05);
+background-color: #0d6efd;
+color: white;
+}
+
+/* 입력 폼 스타일 */
+.todo-item-form {
+max-width: 250px;
+grid-row: 1;
+grid-column: 2;
+}
+
+.todo-item-form form {
+background-color: #f8f9fa;
+padding: 15px;
+border-radius: 0.5rem;
+box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+}
+
+.todo-item-form p {
+margin-bottom: 10px;
+}
+
+.todo-item-form input[type="text"] {
+width: 100%;
+padding: 0.375rem 0.75rem;
+border: 1px solid #ced4da;
+border-radius: 0.375rem;
+background-color: white;
+transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.todo-item-form input[type="text"]:focus {
+outline: none;
+border-color: #86b7fe;
+box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.todo-item-form input[readonly] {
+background-color: #e9ecef;
+color: #6c757d;
+}
+
+.todo-item-form button {
+width: 100%;
+padding: 0.375rem 0.75rem;
+background-color: #0d6efd;
+color: white;
+border: none;
+border-radius: 0.375rem;
+cursor: pointer;
+font-weight: 500;
+transition: background-color 0.15s ease-in-out;
+}
+
+.todo-item-form button:hover {
+background-color: #0b5ed7;
+}
+
+/* 모두 삭제 버튼 스타일 */
+.btn-remove-all {
+width: 100%;
+padding: 0.375rem 0.75rem;
+background-color: #ff6b6b;
+color: white;
+border: none;
+border-radius: 0.375rem;
+cursor: pointer;
+font-weight: 500;
+margin-top: 5px;
+transition: background-color 0.15s ease-in-out;
+}
+
+.btn-remove-all:hover {
+background-color: #fa5252;
+}
+
+/* 폼 입력 필드 이름 변경 */
+.todo-item-form input[name="todoSubject"] {
+width: 100%;
+padding: 0.375rem 0.75rem;
+border: 1px solid #ced4da;
+border-radius: 0.375rem;
+background-color: white;
+transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.todo-item-form input[name="todoSubject"]:focus {
+outline: none;
+border-color: #86b7fe;
+box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* 할 일 리스트 스타일 */
+.todo-item-list {
+list-style-type: none;
+grid-row: 1 / span 2;
+grid-column: 3;
+padding-left: 0;
+margin: 0;
+}
+
+.todo-item-list li {
+background-color: #f8f9fa;
+margin-bottom: 10px;
+padding: 0.75rem 1rem;
+border-radius: 0.375rem;
+box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+transition: all 0.2s ease;
+position: relative;
+padding-left: 25px;
+border-left: 3px solid #0d6efd;
+}
+
+.todo-item-list li:before {
+content: '';
+position: absolute;
+left: 10px;
+top: 50%;
+transform: translateY(-50%);
+width: 8px;
+height: 8px;
+background-color: #0d6efd;
+border-radius: 50%;
+}
+
+.todo-item-list li:hover {
+background-color: #e7f0ff;
+transform: translateX(5px);
+}
+

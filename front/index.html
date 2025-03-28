@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>todo-list</title>
+        <link rel="stylesheet" href="./style.css" />
+        <script type="text/javascript" src="./navigator.js"></script>
+        <!-- <script type="text/javascript" src="./memoryStore.js"></script>
+        <script type="text/javascript" src="./localStorageStore.js"></script>
+        <script type="text/javascript" src="./apiStore.js"></script> -->
+        <script type="text/javascript" src="./todo.js"></script>
+    </head>
+    
+    <body>
+        <ul id="todo-nav">
+            <li><a href="#" onclick="movePrevMonth();">&lt;&lt;이전</a></li>
+            <li><span id="todo-nav-year"></span>-<span id="todo-nav-month"></span></li>
+            <li><a href="#" onclick="moveNextMonth();">다음&gt;&gt;</a></li>
+            <li><a href="#" onclick="moveToday();">오늘</a></li>
+        </ul>
+
+        <!-- .todo-item 담는 container-->
+        <div id="todo-item-container">
+            <!-- 여기에 템플릿 기반으로 동적으로 생성된 todo 아이템이 들어감 -->
+        </div>
+
+        <!-- template -->
+        <template id="todo-item-template">
+            <div class="todo-item">
+                <div class="todo-item-day">1</div>
+
+                <div class="todo-item-form">
+                    <form method="post" autocomplete="off">
+                        <p><input type="text" name="todoDate" value="2023-3-13" readonly /></p>
+                        <p><input type="text" name="todoSubject" placeholder="todo 입력" /></p>
+                        <p><button type="submit">등록</button></p>
+                        <p><button type="button" class="btn-remove-all">모두삭제</button></p>
+                    </form>
+                </div>
+
+                <ul class="todo-item-list">
+                    <!-- 동적으로 생성되는 todo 항목들이 여기에 추가됨 -->
+                </ul>
+            </div>
+        </template>
+    </body>
+</html>
