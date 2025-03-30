@@ -151,12 +151,36 @@ transition: background-color 0.15s ease-in-out;
 .todo-item-form button:hover {
 background-color: #0b5ed7;
 }
+/* 삭제 버튼 스타일 */
+.delete-btn {
+    background-color: #dc3545; /* 부트스트랩의 danger 색상 */
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    margin-left: 10px;
+    float: right;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
+}
+
+.delete-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
+}
 
 /* 모두 삭제 버튼 스타일 */
 .btn-remove-all {
 width: 100%;
 padding: 0.375rem 0.75rem;
-background-color: #ff6b6b;
+background-color: #fa5252;
 color: white;
 border: none;
 border-radius: 0.375rem;
