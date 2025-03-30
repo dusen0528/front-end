@@ -1,7 +1,6 @@
-"use strict";
-
 const TodoApp = (function () {
-  const todoStore = memoryStore();
+  "use strict";
+  const todoStore = localStorageStore();
 
   function createTodoList() {
     const daysInMonth = getDaysInMonth(

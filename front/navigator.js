@@ -1,6 +1,6 @@
-"use strict";
-
 const Navigator = (function () {
+  "use strict";
+
   let year = null;
   let month = null;
 
