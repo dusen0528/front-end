@@ -1,7 +1,7 @@
 //https://developer.mozilla.org/ko/docs/Web/API/Fetch_API/Using_Fetch
 
 const apiStore = function () {
-  "use strict";
+  ("use strict");
   //api 서버 주소입니다.
   const SERVER_URL = "http://220.67.216.11:8000";
 
@@ -29,6 +29,12 @@ const apiStore = function () {
             countByTodoDate(todoDate); 사용해서 등록 count를 구합니다.
         */
 
+    const count = await countByTodoDate(todoDate);
+    if (count >= DAILY_MAX_TODO_COUNT) {
+      throw new Error(
+        `${DAILY_MAX_TODO_COUNT}개보다 todo를 더 만들 수 없습니다`
+      );
+    }
     /*TODO#1-2  저장구현
 
             POST /api/calendar/events
@@ -54,6 +60,22 @@ const apiStore = function () {
 
     /*TODO#1-3 응답코드가 2xx가 아니다면 적절한 error처리 */
     //참고로 응답코드가 몇번으로 return 되는지 console.log로 남겨서 직접확인해보세요.
+    try {
+      const response = await fetch(url, options);
+      console.log("resopnse code : ", response.status);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          `저장 실패 ${errorData.message || response.statusText}`
+        );
+      }
+      const result = await response.json();
+      return result.id;
+    } catch (error) {
+      console.error("저장 중 오류:", error);
+      throw error;
+    }
   };
 
   /*TODO#2 삭제 구현하기
@@ -62,8 +84,25 @@ const apiStore = function () {
   api.delete = async function (todoDate, id) {
     const url = SERVER_URL + "/api/calendar/events/" + id;
     //TODO#2-1 삭제 구현.
-
+    const options = {
+      method: "DELETE",
+      headers: headers,
+    };
     //TODO#2-2 응답코드를 확인해주세요. error발생시 적절하 error처리 해주세요.
+    try {
+      const response = await fetch(url, options);
+      console.log("삭제 응답 코드 :", response.status);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          `삭제 실패 ${errorData.message || response.statusText}`
+        );
+      }
+      return true;
+    } catch (error) {
+      console.error(`ID ${id} 삭제 중 오류 발생:`, error);
+      throw error;
+    }
   };
 
   /*TODO#3 해당날짜에 해당되는 모든 todo 삭제하기
@@ -72,8 +111,27 @@ const apiStore = function () {
     const url = SERVER_URL + "/api/calendar/events/daily/" + todoDate;
 
     //TODO#3-1 삭제 구현하기
-
+    const options = {
+      method: "DELETE",
+      headers: headers,
+    };
     //TODO#3-2 Error 응답이 200번대가 아니라면 적절한 error 처리
+    try {
+      const response = await fetch(url, options);
+      console.log("날짜별 삭제 응답 상태 코드:", response.status);
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          `날짜별 삭제 실패: ${errorData.message || response.statusText}`
+        );
+      }
+
+      return true;
+    } catch (error) {
+      console.error(`${todoDate} 날짜 항목 삭제 중 오류 발생:`, error);
+      throw error;
+    }
   };
 
   //TODO#4 해당 날짜에 존재하는 모든 todo 조회, 존재하지 않는다면 빈 배열을 리턴합니다.
@@ -92,11 +150,35 @@ const apiStore = function () {
       "&day=" +
       day;
 
+    const options = {
+      method: "GET",
+      headers: headers,
+    };
+
     //TODO#4-1 조회 구현
+    try {
+      const response = await fetch(url, options);
+      console.log("조회 response status code", response.status);
 
-    //TODO#4-2 응답 코드를 확인 후 error 처리
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          `조회 실패: ${errorData.message || response.statusText}`
+        );
+      }
 
-    return [];
+      const data = await response.json();
+
+      return data.map((item) => ({
+        id: item.id,
+        todoDate: item.eventAt,
+        todoSubject: item.subject,
+      }));
+    } catch (error) {
+      //TODO#4-2 응답 코드를 확인 후 error 처리
+      console.error(`${todoDate} 조회 중 오류 발생:`, error);
+      return [];
+    }
   };
 
   //TODO#5 해당 날짜의 모든 todo item count, 참고로 countByTodoDate 함수는 api 내부에서만 접근가능 합니다.
@@ -105,11 +187,94 @@ const apiStore = function () {
       SERVER_URL + "/api/calendar/daily-register-count?date=" + todoDate;
 
     //TODO#5-1 구현
+    const options = {
+      method: "GET",
+      headers: headers,
+    };
+    try {
+      const response = await fetch(url, options);
+      console.log("countByTodoDate status Code :", response.status);
 
-    //TODO#5-2 응답 코드를 확인 후 error 처리
-
-    return 0;
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          `카운트 조회 실패: ${errorData.message || response.statusText}`
+        );
+      }
+      const data = await response.json();
+      return data.count;
+    } catch (error) {
+      //TODO#5-2 응답 코드를 확인 후 error 처리
+      console.error(`${todoDate} 카운트 조회 중 오류 발생:`, error);
+      return 0;
+    }
   }
+
+  // event id로 조회
+  api.getEventById = async function (id) {
+    const url = SERVER_URL + "/api/calendar/events/" + id;
+    const options = {
+      method: "GET",
+      headers: headers,
+    };
+
+    try {
+      const response = await fetch(url, options);
+      console.log("이벤트 조회 응답 코드:", response.status);
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          `이벤트 조회 실패: ${errorData.message || response.statusText}`
+        );
+      }
+
+      const data = await response.json();
+      return {
+        id: data.id,
+        todoDate: data.eventAt,
+        todoSubject: data.subject,
+        createdAt: data.createdAt,
+      };
+    } catch (error) {
+      console.error(`ID ${id} 이벤트 조회 중 오류 발생:`, error);
+      throw error;
+    }
+  };
+
+  //event 월단위로 조회하기
+  api.getMonthlyTodoList = async function (year, month) {
+    const url =
+      SERVER_URL + "/api/calendar/events/?year=" + year + "&month=" + month;
+
+    const options = {
+      method: "GET",
+      headers: headers,
+    };
+
+    try {
+      const response = await fetch(url, options);
+      console.log("월단위 조회 response status code: ", response.status);
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          `조회 실패: ${errorData.message || response.statusText}`
+        );
+      }
+
+      const data = await response.json();
+      return data.map((item) => ({
+        id: item.id,
+        subject: item.subject,
+        eventAt: item.eventAt,
+        createdAt: item.createdAt,
+      }));
+    } catch (error) {
+      console.error(`${year} : ${month} 조회 중 오류 발생:`, error);
+      return [];
+    }
+  };
 
   return api;
 };

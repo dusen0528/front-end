@@ -1,8 +1,8 @@
 const TodoApp = (function () {
   "use strict";
-  const todoStore = localStorageStore();
+  const todoStore = apiStore();
 
-  function createTodoList() {
+  async function createTodoList() {
     const daysInMonth = getDaysInMonth(
       Navigator.getYear(),
       Navigator.getRawMonth()
@@ -36,12 +36,12 @@ const TodoApp = (function () {
 
       // 모두 삭제 버튼 이벤트
       const removeAllBtn = todoItem.querySelector(".btn-remove-all");
-      removeAllBtn.addEventListener("click", function () {
+      removeAllBtn.addEventListener("click", async function () {
         const todoDateInput = this.closest(".todo-item").querySelector(
           "input[name=todoDate]"
         );
         const dateValue = todoDateInput.value;
-        todoStore.deleteByTodoDate(dateValue);
+        await todoStore.deleteByTodoDate(dateValue);
 
         // UI 업데이트
         const todoItemList =
@@ -50,29 +50,33 @@ const TodoApp = (function () {
       });
 
       // 저장된 todo 불러오기
-      const todoList = todoStore.getTodoItemList(todoDate);
       const todoItemList = todoItem.querySelector(".todo-item-list");
+      try {
+        const todoList = await todoStore.getTodoItemList(todoDate.value);
 
-      todoList.forEach((item) => {
-        const li = document.createElement("li");
-        li.textContent = item.todoSubject;
-        li.dataset.id = item.id;
+        todoList.forEach((item) => {
+          const li = document.createElement("li");
+          li.textContent = item.todoSubject;
+          li.dataset.id = item.id;
 
-        const deleteBtn = document.createElement("button");
-        deleteBtn.textContent = "삭제";
-        deleteBtn.className = "delete-btn";
-        deleteBtn.addEventListener("click", function () {
-          const todoId = li.dataset.id;
-          const todoDateValue = todoDate.value;
+          const deleteBtn = document.createElement("button");
+          deleteBtn.textContent = "삭제";
+          deleteBtn.className = "delete-btn";
+          deleteBtn.addEventListener("click", async function () {
+            const todoId = li.dataset.id;
+            const todoDateValue = todoDate.value;
 
-          todoStore.delete(todoDateValue, todoId);
+            await todoStore.delete(todoDateValue, todoId);
 
-          li.remove();
+            li.remove();
+          });
+
+          li.appendChild(deleteBtn);
+          todoItemList.appendChild(li);
         });
-
-        li.appendChild(deleteBtn);
-        todoItemList.appendChild(li);
-      });
+      } catch (error) {
+        console.error(`${todoDate.value} 할 일 목록 로드 실패:`, error);
+      }
 
       // 컨테이너에 추가
       todoItemContainer.appendChild(todoItem);
@@ -83,7 +87,7 @@ const TodoApp = (function () {
     return new Date(targetYear, parseInt(targetMonth), 0).getDate();
   }
 
-  function todoSubmit(event) {
+  async function todoSubmit(event) {
     event.preventDefault();
 
     const form = event.target;
@@ -95,26 +99,22 @@ const TodoApp = (function () {
 
     if (subject) {
       try {
-        todoStore.save(todoDate, subject);
+        const id = await todoStore.save(todoDate, subject);
         // UI 업데이트
         const todoItemList = form
           .closest(".todo-item")
           .querySelector(".todo-item-list");
 
-        // 새로 저장된 항목 가져오기 (마지막 항목)
-        const todoList = todoStore.getTodoItemList(todoDate);
-        const newTodo = todoList[todoList.length - 1];
-
         const li = document.createElement("li");
         li.textContent = subject;
-        li.dataset.id = newTodo.id; // id 저장
+        li.dataset.id = id; // 서버에서 반환된 id 사용
 
         // 삭제 버튼 추가
         const deleteBtn = document.createElement("button");
         deleteBtn.textContent = "삭제";
         deleteBtn.className = "delete-btn";
-        deleteBtn.addEventListener("click", function () {
-          todoStore.delete(todoDate, newTodo.id);
+        deleteBtn.addEventListener("click", async function () {
+          await todoStore.delete(todoDate, id);
           li.remove();
         });
 
@@ -130,13 +130,13 @@ const TodoApp = (function () {
     }
   }
 
-  window.addEventListener("DOMContentLoaded", function () {
-    createTodoList();
+  window.addEventListener("DOMContentLoaded", async function () {
+    await createTodoList();
   });
 
   return {
-    refresh: function () {
-      createTodoList();
+    refresh: async function () {
+      await createTodoList();
     },
   };
 })();
