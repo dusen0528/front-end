@@ -2,8 +2,12 @@ package inho.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Entity
+@NoArgsConstructor
 @Data
 public class Todo {
 
@@ -18,6 +22,11 @@ public class Todo {
     private String eventAt;
 
     @Column(nullable = false, updatable = false)
-    private  String createdAt;
+    private  LocalDateTime createdAt;
 
+    public Todo(String subject, String eventAt) {
+        this.subject = subject;
+        this.eventAt = eventAt;
+        this.createdAt = LocalDateTime.now();
+    }
 }
