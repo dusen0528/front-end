@@ -15,9 +15,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 public class TodoServiceImpl implements TodoService {
-    private final TodoRepository todoRepository;
     private static final int DAILY_MAX_TODO_COUNT = 8;
-
+    private final TodoRepository todoRepository;
 
     /**
      * 새로운 TODO를 저장합니다.
@@ -77,7 +76,7 @@ public class TodoServiceImpl implements TodoService {
      * @throws TodoNotFoundException 해당 날짜에 등록된 TODO가 없는 경우 발생
      */
     public List<Todo> getTodosByDate(String eventAt) {
-       return  findTodos(eventAt, false);
+        return findTodos(eventAt, false);
     }
 
     /**
@@ -123,7 +122,7 @@ public class TodoServiceImpl implements TodoService {
      * @return 해당 조건에 맞는 Todo 리스트
      * @throws TodoNotFoundException 조건에 맞는 TODO가 없는 경우 발생
      */
-    private List<Todo> findTodos(String queryParam, boolean isMonthly){
+    private List<Todo> findTodos(String queryParam, boolean isMonthly) {
         List<Todo> todos = isMonthly
                 ? todoRepository.findEventAtStartingWith(queryParam) // 월별 조회
                 : todoRepository.findByEventAt(queryParam);         // 일별 조회

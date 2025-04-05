@@ -20,7 +20,7 @@ const chartApi = function () {
 
     if (!response.ok) {
       console.log(response);
-      throw new Error(`GET(getTodoItemList) response code: ${response.status}`);
+      throw new Error(`GET computer : ${response.status}`);
     }
 
     const data = await response.json();
