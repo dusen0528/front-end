@@ -21,7 +21,7 @@ const apiStore = temperatureApi();
       ) {
         temperatureData = response.result;
       } else if (response && response.temp) {
-        temperatureData = [response]; // 단일 객체
+        temperatureData = [response];
       } else {
         temperatureData = [];
       }
