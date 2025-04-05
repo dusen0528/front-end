@@ -3,7 +3,7 @@
 const apiStore = function () {
   ("use strict");
   //api 서버 주소입니다.
-  const SERVER_URL = "http://220.67.216.11:8000";
+  const SERVER_URL = "http://localhost:8080";
 
   //user id는 변경해주세요
   const X_USER_ID = "dusen0528";
