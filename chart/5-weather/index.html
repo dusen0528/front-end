@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>날씨 앱</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="config.js"></script>
+  <script src="api.js"></script>
+  <script src="weatherservice.js"></script>
+</head>
+<body>
+  <div class="weather-app">
+    <!-- 위치 정보 및 현재 날씨 -->
+    <div class="location-section">
+      <h1 id="location">나의 위치</h1>
+    <div id="current-temp">--°</div>
+    <div id="weather-desc">--</div>
+    </div>
+
+    <!-- 10일간의 일기예보 탭 -->
+    <div class="forecast-tab">
+      <h3 id="forecast-title">10일간의 일기예보</h3>
+      <div id="daily-forecast" class="daily-forecast">
+        <!-- 요일별 날씨 정보가 여기에 동적으로 추가됩니다 -->
+      </div>
+    </div>
+
+    <!-- 상세 날씨 정보 패널들 -->
+    <div class="info-panels">
+      <!-- 자외선 지수 패널 -->
+      <div class="info-panel">
+        <div class="panel-header">
+          <i class="fas fa-sun"></i> 자외선 지수
+        </div>
+        <div class="panel-content" id="uv-index">
+          <div class="value">--</div>
+          <div class="label">--</div>
+          <div class="progress-bar">
+            <div class="progress" style="width: 0%"></div>
+          </div>
+          <div class="detail">--</div>
+        </div>
+      </div>
+
+      <!-- 일출/일몰 패널 -->
+      <div class="info-panel">
+        <div class="panel-header">
+          <i class="fas fa-sun"></i> 일몰
+        </div>
+        <div class="panel-content" id="sunset">
+          <div class="value">--</div>
+          <div class="graph">
+            <!-- 일출/일몰 그래프가 여기에 표시됩니다 -->
+          </div>
+          <div class="detail">일출: --</div>
+        </div>
+      </div>
+
+      <!-- 바람 패널 -->
+      <div class="info-panel">
+        <div class="panel-header">
+          <i class="fas fa-wind"></i> 바람
+        </div>
+        <div class="panel-content" id="wind">
+          <div class="wind-speed">
+            <div class="value">--</div>
+            <div class="unit">m/s</div>
+            <div class="label">바람</div>
+          </div>
+          <div class="wind-gust">
+            <div class="value">--</div>
+            <div class="unit">m/s</div>
+            <div class="label">돌풍</div>
+          </div>
+          <div class="wind-direction">
+            <!-- 풍향 컴퍼스가 여기에 표시됩니다 -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 체감 온도 패널 -->
+      <div class="info-panel">
+        <div class="panel-header">
+          <i class="fas fa-thermometer-half"></i> 체감 온도
+        </div>
+        <div class="panel-content" id="feels-like">
+          <div class="value">--</div>
+        </div>
+      </div>
+
+      <!-- 강수량 패널 -->
+      <div class="info-panel">
+        <div class="panel-header">
+          <i class="fas fa-tint"></i> 강수량
+        </div>
+        <div class="panel-content" id="precipitation">
+          <div class="value">--</div>
+          <div class="detail">지난 24시간</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</body>
+</html>

@@ -1,0 +1,227 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #f5f7fa;
+  color: #333;
+  line-height: 1.6;
+}
+
+.weather-app {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 위치 및 현재 날씨 섹션 */
+.location-section {
+  text-align: center;
+  padding: 30px 0;
+  background: linear-gradient(to bottom, #4a90e2, #6aa6f8);
+  color: white;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+#location {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+#current-temp {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+#weather-desc {
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+/* 일기예보 탭 */
+.forecast-tab {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#forecast-title {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #555;
+}
+
+.daily-forecast {
+  display: flex;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.forecast-item {
+  flex: 0 0 80px;
+  text-align: center;
+  padding: 10px;
+}
+
+.forecast-item .day {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.forecast-item .date {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.forecast-item .icon {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #4a90e2;
+}
+
+.forecast-item .temp-high {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.forecast-item .temp-low {
+  color: #888;
+}
+
+/* 정보 패널 그리드 */
+.info-panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 15px;
+}
+
+.info-panel {
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  font-weight: 500;
+  color: #555;
+}
+
+.panel-header i {
+  margin-right: 8px;
+  color: #4a90e2;
+}
+
+.panel-content {
+  padding: 5px 0;
+}
+
+.panel-content .value {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.panel-content .label {
+  color: #888;
+  margin-bottom: 5px;
+}
+
+.panel-content .detail {
+  font-size: 13px;
+  color: #888;
+  margin-top: 10px;
+}
+
+/* 진행 바 */
+.progress-bar {
+  height: 6px;
+  background-color: #eee;
+  border-radius: 3px;
+  margin: 10px 0;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background-color: #4a90e2;
+}
+
+/* 바람 패널 콘텐츠 */
+#wind .panel-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wind-speed, .wind-gust {
+  text-align: center;
+}
+
+.wind-direction {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.compass {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+  position: relative;
+  margin-bottom: 5px;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 2px;
+  background-color: #4a90e2;
+  transform-origin: 0 50%;
+}
+
+.arrow:before {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: -3px;
+  border: 4px solid transparent;
+  border-left: 6px solid #4a90e2;
+}
+
+.direction {
+  font-size: 14px;
+  color: #666;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 600px) {
+  .info-panels {
+    grid-template-columns: 1fr;
+  }
+  
+  #current-temp {
+    font-size: 40px;
+  }
+  
+  .location-section {
+    padding: 20px 0;
+  }
+}
